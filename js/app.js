@@ -6,74 +6,40 @@ const uf =
 
 /*
 |--------------------------------------------------------------------------
-| Cache
+| Inicialização
 |--------------------------------------------------------------------------
 */
 
-let banco =
-    JSON.parse(
-        localStorage.getItem("banco_cache")
-    ) || [];
+let banco = [];
 
-/*
-|--------------------------------------------------------------------------
-| Manifest
-|--------------------------------------------------------------------------
-*/
+inicializar();
 
-fetch("data/manifest.json")
+async function inicializar() {
+    
+        try {
 
-    .then(response => response.json())
+            const response =
+                await fetch(
 
-    .then(async manifest => {
+                    `data/dados.json?t=${Date.now()}`,
 
-        let arquivosLidos =
-            JSON.parse(
-                localStorage.getItem("arquivos_lidos")
-            ) || [];
-
-        for (const arquivo of manifest.arquivos) {
-
-            if (arquivosLidos.includes(arquivo)) {
-                continue;
-            }
-
-            try {
-
-                const response =
-                    await fetch(`data/${arquivo}`);
-
-                const dados =
-                    await response.json();
-
-                banco.push(...dados);
-
-                arquivosLidos.push(arquivo);
-
-            } catch (erro) {
-
-                console.error(
-                    `Erro ao carregar ${arquivo}`,
-                    erro
+                    {
+                        cache: "no-store"
+                    }
                 );
-            }
+
+            banco =
+                await response.json();
+
+            renderizar();
+
+        } catch (erro) {
+
+            console.error(
+                "Erro ao carregar dados:",
+                erro
+            );
         }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Salva cache
-        |--------------------------------------------------------------------------
-        */
-
-        localStorage.setItem(
-            "banco_cache",
-            JSON.stringify(banco)
-        );
-
-        localStorage.setItem(
-            "arquivos_lidos",
-            JSON.stringify(arquivosLidos)
-        );
 
         /*
         |--------------------------------------------------------------------------
@@ -113,4 +79,4 @@ fetch("data/manifest.json")
             filtrados,
             uf
         );
-    });
+    }

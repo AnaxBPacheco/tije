@@ -1,92 +1,64 @@
 const UFS = [
 
-    "AC","AL","AP","AM","BA",
-    "CE","DF","ES","GO","MA",
-    "MT","MS","MG","PA","PB",
-    "PR","PE","PI","RJ","RN",
-    "RS","RO","RR","SC","SP",
-    "SE","TO","TSE"
+    "AC", "AL", "AP", "AM", "BA",
+    "CE", "DF", "ES", "GO", "MA",
+    "MT", "MS", "MG", "PA", "PB",
+    "PR", "PE", "PI", "RJ", "RN",
+    "RS", "RO", "RR", "SC", "SP",
+    "SE", "TO", "TSE"
 ];
 
 /*
 |--------------------------------------------------------------------------
-| Cache
+| Banco
 |--------------------------------------------------------------------------
 */
 
-let banco =
-    JSON.parse(
-        localStorage.getItem("banco_cache")
-    ) || [];
+let banco = [];
 
 /*
 |--------------------------------------------------------------------------
-| Manifest
+| Inicialização
 |--------------------------------------------------------------------------
 */
 
-fetch("data/manifest.json")
+inicializar();
 
-.then(response => response.json())
-
-.then(async manifest => {
-
-    let arquivosLidos =
-        JSON.parse(
-            localStorage.getItem("arquivos_lidos")
-        ) || [];
-
-    for (const arquivo of manifest.arquivos) {
-
-        if (arquivosLidos.includes(arquivo)) {
-            continue;
-        }
-
+async function inicializar() {
+    
         try {
 
             const response =
-                await fetch(`data/${arquivo}`);
+                await fetch(
 
-            const dados =
+                    `data/dados.json?t=${Date.now()}`,
+
+                    {
+                        cache: "no-store"
+                    }
+                );
+
+            banco =
                 await response.json();
 
-            banco.push(...dados);
-
-            arquivosLidos.push(arquivo);
+            renderizar();
 
         } catch (erro) {
 
             console.error(
-                `Erro ao carregar ${arquivo}`,
+                "Erro ao carregar dados:",
                 erro
             );
         }
-    }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Salva cache
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Render
+        |--------------------------------------------------------------------------
+        */
 
-    localStorage.setItem(
-        "banco_cache",
-        JSON.stringify(banco)
-    );
-
-    localStorage.setItem(
-        "arquivos_lidos",
-        JSON.stringify(arquivosLidos)
-    );
-
-    /*
-    |--------------------------------------------------------------------------
-    | Render
-    |--------------------------------------------------------------------------
-    */
-
-    renderizar();
-});
+        renderizar();
+}
 
 function renderizar() {
 
@@ -137,9 +109,16 @@ function gerarResumo(tipoCargo) {
 
         const lista = grupos[uf];
 
-        lista.sort((a, b) =>
-            new Date(b.data) - new Date(a.data)
-        );
+        lista.sort((a, b) => {
+
+            const dataA =
+                a.data.split("-").join("");
+
+            const dataB =
+                b.data.split("-").join("");
+
+            return dataB.localeCompare(dataA);
+        });
 
         const ultima =
             lista[0];
@@ -154,9 +133,16 @@ function gerarResumo(tipoCargo) {
         });
     });
 
-    resumo.sort((a, b) =>
-        new Date(b.data) - new Date(a.data)
-    );
+    resumo.sort((a, b) => {
+
+        const dataA =
+            a.data.split("-").join("");
+
+        const dataB =
+            b.data.split("-").join("");
+
+        return dataB.localeCompare(dataA);
+    });
 
     return resumo;
 }
@@ -250,13 +236,13 @@ function atualizarEstatisticasGerais() {
 
         const ultima =
             banco
-            .map(item => item.data)
-            .sort()
-            .reverse()[0];
+                .map(item => item.data)
+                .sort()
+                .reverse()[0];
 
         document
             .getElementById("ultima-nomeacao")
             .innerText =
-                formatarData(ultima);
+            formatarData(ultima);
     }
 }
