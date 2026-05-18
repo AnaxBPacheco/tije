@@ -133,7 +133,7 @@ function obterUltimaNomeacao() {
                 - new Date(a.data)
             )[0];
 
-    return `${ultima.uf.toUpperCase()} (${formatarData(ultima.data)})`;
+    return `${ultima.tribunal.toUpperCase()} (${formatarData(ultima.data)})`;
 }
 
 /*
