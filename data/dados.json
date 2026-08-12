@@ -2383,8 +2383,7 @@
     "data": "2026-08-10",
     "ato": "PORTARIA Nº 271",
     "link": "https://www.in.gov.br/web/dou/-/portaria-n-271-de-7-de-agosto-de-2026-724229277"
-  }
-  ,
+  },
   {
     "uf": "MG",
     "tribunal": "TRE-MG",
@@ -2393,5 +2392,32 @@
     "data": "2026-08-10",
     "ato": "PORTARIA Nº 271",
     "link": "https://www.in.gov.br/web/dou/-/portaria-n-271-de-7-de-agosto-de-2026-724229277"
+  },
+  {
+    "uf": "PR",
+    "tribunal": "TRE-PR",
+    "nome": "JOSE HENRIQUE DOMETERCO",
+    "cargo": "Analista Judiciário",
+    "data": "2026-08-12",
+    "ato": "PORTARIA Nº 266",
+    "link": "https://www.in.gov.br/web/dou/-/portaria-n-266-de-6-de-agosto-de-2026-724789935"
+  },
+  {
+    "uf": "PR",
+    "tribunal": "TRE-PR",
+    "nome": "AMANDA MONTEIRO GALVAO",
+    "cargo": "Analista Judiciário",
+    "data": "2026-08-12",
+    "ato": "PORTARIA Nº 266",
+    "link": "https://www.in.gov.br/web/dou/-/portaria-n-266-de-6-de-agosto-de-2026-724789935"
+  },
+  {
+    "uf": "RS",
+    "tribunal": "TRE-RS",
+    "nome": "TIAGO PANERAI PEREIRA",
+    "cargo": "Analista Judiciário",
+    "data": "2026-08-12",
+    "ato": "PORTARIA Nº 2.766",
+    "link": "https://www.in.gov.br/web/dou/-/portaria-tre-rs-n-2.766-de-10-de-agosto-de-2026-724761153"
   }
 ]
